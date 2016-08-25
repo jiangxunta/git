@@ -33,3 +33,6 @@ buf11.copy(result,0,0,3);
 buf22.copy(result,3,0,3);
 console.log(result.toString());
 console.log(Buffer.isBuffer(buf11));
+var lg = '一定成功';
+console.log(Buffer.byteLength(lg));
+console.log(Buffer.byteLength(lg,'ascii'));
