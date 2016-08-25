@@ -13,5 +13,23 @@ console.log(buf3);
 var buf4 = new Buffer([0x15,0x16,0x17]);
 console.log(buf4);
 // 字符串创建
-var buf5 = new Buffer("abc",'utf-8'); // 97 98 99
+var buf5 = new Buffer("abc",'utf-8'); // 97 98 99 <Buffer 61 62 63>
 console.log(buf5);
+console.log('珠'.charCodeAt(0));
+console.log((20005).toString(16));//4e25
+/*
+* 得到珠的Unicode码 转成二进制
+* 依次从后往前填入1110xxxx 10xxxxxx 10xxxxxx
+* 把结果转换成 16进制
+*
+* */
+
+ // buffer 常用的方法
+var buf11 = new Buffer("珠");
+var buf22 = new Buffer("峰");
+console.log(Buffer.concat([buf11,buf22],3).toString('utf8'));
+var result = new Buffer(6);
+buf11.copy(result,0,0,3);
+buf22.copy(result,3,0,3);
+console.log(result.toString());
+console.log(Buffer.isBuffer(buf11));
