@@ -6,7 +6,47 @@ var fs = require('fs');
 fs.mkdir('a/',function(err){
     //console.log(err);
 });
+//mkdirSync 方法
+function mkdir(p){
+    p = p.split('/');
+    // a a/b a/b/c
+    for(var i = 0;i< p.length; p++){
+        var dirPath = p.slice(0,i+1).join('/');
+        fs.mkdirSync(dirPath);
+    }
+}
+// mkdirSync 判断 是否存在
+function mkdir1(p){
+    p = p.split('/');
+    // a a/b a/b/c
+    for(var i = 0;i< p.length; p++){
+        var dirPath = p.slice(0,i+1).join('/');
+        var flag = fs.existsSync(dirPath);
+        if (!flag) {
+            fs.mkdirSync(dirPath);
+        }
+    }
+}
+// 异步
+function mkdir2(p){
+    var arr = p.split('/');
+    // a a/b a/b/c
+    var index = 0;
+    make(arr[index]);
+    function make(p){
+        if (index >= arr.length) {
+            return
+        }
+        fs.mkdir(p,function(){
+            make(arr.slice(0,++index).join('/'));
+        })
+    }
+}
+
 // 迭代出a文件夹下的文件 先判断下是文件还是目录
+//stat.isDirectory() 判断是不是文件夹
+//fs.rmdir() 删除文件夹
+//fs.unlink() 查下
 fs.readdir('./a',function(err,files){
     //console.log(files);
     files.forEach(function(file){
@@ -36,22 +76,5 @@ fs.exists('./a',function(exists){
 });
 // 根据相对路径获取绝对路径
 //console.log(__dirname + './a');
-// 路径的处理
-var path =require('path');
-// 多个部分路径拼接一个最终的路径
-console.log(path.join(__dirname,'a','b','c'));
-// windows 下是\  linux 下是/
-// 在命令中执行 用node -e "console.log(require('path').join(__dirname,'a','b','c'))"
-// resolve 得到绝对路劲
-console.log(path.resolve('a','b','..','..'));
-// basename 获取文件名
-console.log(path.basename(__filename));
 
-// 给它abc.eg一个扩展名
-console.log(path.basename('abc.eg','c.eg'));
-// 获取文件的类型名
-console.log(path.extname(__filename));
-console.log(path.delimiter);// 打印; mac :
-
-console.log(path.sep);// 打印\ 可以判断当前操作系统
 
